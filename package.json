@@ -31,7 +31,9 @@
     "lint": "eslint --ext .ts,.tsx packages apps workers",
     "lint:fix": "eslint --ext .ts,.tsx packages apps workers --fix",
     "format": "prettier --write \"packages/**/*.ts\" \"apps/**/*.{ts,tsx}\" \"workers/**/*.ts\"",
-    "format:check": "prettier --check \"packages/**/*.ts\" \"apps/**/*.{ts,tsx}\" \"workers/**/*.ts\""
+    "format:check": "prettier --check \"packages/**/*.ts\" \"apps/**/*.{ts,tsx}\" \"workers/**/*.ts\"",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
@@ -48,6 +50,7 @@
     "prettier": "^3.8.1",
     "tailwindcss": "^3.4.16",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.0"
   }
 }

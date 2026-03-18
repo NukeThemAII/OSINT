@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Investor Intel brief generation every hour
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+Unit=investor-intel-brief.service
+
+[Install]
+WantedBy=timers.target

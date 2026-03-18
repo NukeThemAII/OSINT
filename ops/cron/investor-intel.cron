@@ -1,0 +1,9 @@
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+REPO_DIR=/opt/investor-intel
+
+*/10 * * * * cd $REPO_DIR && /bin/bash -lc 'set -a && . ./.env && set +a && mkdir -p data/logs && npm run worker:fast >> data/logs/worker-fast.log 2>&1'
+7 * * * * cd $REPO_DIR && /bin/bash -lc 'set -a && . ./.env && set +a && mkdir -p data/logs && npm run worker:hourly >> data/logs/worker-hourly.log 2>&1'
+17 * * * * cd $REPO_DIR && /bin/bash -lc 'set -a && . ./.env && set +a && mkdir -p data/logs && npm run worker:summary >> data/logs/worker-summary.log 2>&1'
+27 * * * * cd $REPO_DIR && /bin/bash -lc 'set -a && . ./.env && set +a && mkdir -p data/logs && npm run worker:health >> data/logs/worker-health.log 2>&1'
+41 3 * * * cd $REPO_DIR && /bin/bash -lc 'set -a && . ./.env && set +a && mkdir -p data/logs && npm run worker:cleanup >> data/logs/worker-cleanup.log 2>&1'

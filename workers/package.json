@@ -1,0 +1,20 @@
+{
+  "name": "@investor-intel/workers",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "fast-refresh": "tsx src/cli.ts fast-refresh",
+    "hourly-ingest": "tsx src/cli.ts hourly-ingest",
+    "generate-brief": "tsx src/cli.ts generate-brief",
+    "cleanup": "tsx src/cli.ts cleanup",
+    "healthcheck": "tsx src/cli.ts healthcheck",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@investor-intel/core": "0.1.0",
+    "@investor-intel/db": "0.1.0",
+    "@investor-intel/sources": "0.1.0",
+    "dotenv": "^16.4.7",
+    "pino": "^9.5.0"
+  }
+}

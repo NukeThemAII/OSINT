@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "resolveJsonModule": true,
+    "allowJs": false,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@investor-intel/core": [
+        "packages/core/src/index.ts"
+      ],
+      "@investor-intel/core/*": [
+        "packages/core/src/*"
+      ],
+      "@investor-intel/db": [
+        "packages/db/src/index.ts"
+      ],
+      "@investor-intel/db/*": [
+        "packages/db/src/*"
+      ],
+      "@investor-intel/sources": [
+        "packages/sources/src/index.ts"
+      ],
+      "@investor-intel/sources/*": [
+        "packages/sources/src/*"
+      ]
+    }
+  }
+}

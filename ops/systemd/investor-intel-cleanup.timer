@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Investor Intel cleanup daily
+
+[Timer]
+OnCalendar=03:30
+Persistent=true
+Unit=investor-intel-cleanup.service
+
+[Install]
+WantedBy=timers.target

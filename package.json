@@ -1,0 +1,43 @@
+{
+  "name": "investor-intel-iran-monitor",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "workers"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace @investor-intel/web",
+    "dev:api": "npm run dev --workspace @investor-intel/api",
+    "start:web": "npm run start --workspace @investor-intel/web",
+    "start:api": "npm run start --workspace @investor-intel/api",
+    "build:web": "npm run build --workspace @investor-intel/web",
+    "build": "npm run build:web && npm run typecheck",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "worker:fast": "npm run fast-refresh --workspace @investor-intel/workers",
+    "worker:hourly": "npm run hourly-ingest --workspace @investor-intel/workers",
+    "worker:summary": "npm run generate-brief --workspace @investor-intel/workers",
+    "worker:cleanup": "npm run cleanup --workspace @investor-intel/workers",
+    "worker:health": "npm run healthcheck --workspace @investor-intel/workers",
+    "db:studio": "npm run db:studio --workspace @investor-intel/db",
+    "db:generate": "npm run db:generate --workspace @investor-intel/db",
+    "db:push": "npm run db:push --workspace @investor-intel/db",
+    "admin:hash-password": "npm run hash-password --workspace @investor-intel/api"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "@types/ws": "^8.18.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

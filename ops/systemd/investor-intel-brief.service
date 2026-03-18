@@ -1,0 +1,11 @@
+[Unit]
+Description=Investor Intel brief generation worker
+After=network.target postgresql.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/investor-intel
+EnvironmentFile=/etc/investor-intel/investor-intel.env
+ExecStart=/usr/bin/npm run worker:summary
+User=www-data
+Group=www-data

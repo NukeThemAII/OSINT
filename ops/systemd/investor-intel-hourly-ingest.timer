@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Investor Intel hourly ingest
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+Unit=investor-intel-hourly-ingest.service
+
+[Install]
+WantedBy=timers.target

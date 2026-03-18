@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Investor Intel healthcheck every hour
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+Unit=investor-intel-healthcheck.service
+
+[Install]
+WantedBy=timers.target

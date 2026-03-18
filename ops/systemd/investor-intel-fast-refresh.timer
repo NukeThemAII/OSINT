@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Investor Intel fast refresh every 10 minutes
+
+[Timer]
+OnCalendar=*:0/10
+Persistent=true
+Unit=investor-intel-fast-refresh.service
+
+[Install]
+WantedBy=timers.target

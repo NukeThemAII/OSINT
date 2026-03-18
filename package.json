@@ -27,15 +27,25 @@
     "db:studio": "npm run db:studio --workspace @investor-intel/db",
     "db:generate": "npm run db:generate --workspace @investor-intel/db",
     "db:push": "npm run db:push --workspace @investor-intel/db",
-    "admin:hash-password": "npm run hash-password --workspace @investor-intel/api"
+    "admin:hash-password": "npm run hash-password --workspace @investor-intel/api",
+    "lint": "eslint --ext .ts,.tsx packages apps workers",
+    "lint:fix": "eslint --ext .ts,.tsx packages apps workers --fix",
+    "format": "prettier --write \"packages/**/*.ts\" \"apps/**/*.{ts,tsx}\" \"workers/**/*.ts\"",
+    "format:check": "prettier --check \"packages/**/*.ts\" \"apps/**/*.{ts,tsx}\" \"workers/**/*.ts\""
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "@types/ws": "^8.18.1",
+    "@typescript-eslint/eslint-plugin": "^8.57.1",
+    "@typescript-eslint/parser": "^8.57.1",
     "autoprefixer": "^10.4.20",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
     "postcss": "^8.4.49",
+    "prettier": "^3.8.1",
     "tailwindcss": "^3.4.16",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"

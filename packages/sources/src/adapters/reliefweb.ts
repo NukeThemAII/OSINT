@@ -6,6 +6,17 @@ import type { SourceAdapter } from '../base';
 import { buildQuery, fetchJson } from '../utils/http';
 import { inferEventType, inferTags } from '../utils/infer';
 
+/** ISO 3166-1 alpha-3 → alpha-2 lookup for countries relevant to the OSINT region. */
+const iso3ToIso2: Record<string, string> = {
+  AFG: 'AF', ARE: 'AE', ARM: 'AM', AZE: 'AZ', BHR: 'BH',
+  CHN: 'CN', DJI: 'DJ', EGY: 'EG', ERI: 'ER', ETH: 'ET',
+  GBR: 'GB', GEO: 'GE', GRC: 'GR', IND: 'IN', IRN: 'IR',
+  IRQ: 'IQ', ISR: 'IL', JOR: 'JO', KWT: 'KW', LBN: 'LB',
+  LBY: 'LY', OMN: 'OM', PAK: 'PK', PSE: 'PS', QAT: 'QA',
+  RUS: 'RU', SAU: 'SA', SDN: 'SD', SOM: 'SO', SYR: 'SY',
+  TUR: 'TR', TKM: 'TM', UKR: 'UA', USA: 'US', YEM: 'YE',
+};
+
 const reliefwebResponseSchema = z.object({
   data: z.array(
     z.object({
@@ -53,7 +64,7 @@ export const reliefwebAdapter: SourceAdapter = {
         summary: item.fields.source?.[0]?.shortname ? `Report from ${item.fields.source[0].shortname}` : undefined,
         publishedAt: item.fields.date?.original,
         placeName: item.fields.primary_country?.name,
-        countryCode: item.fields.primary_country?.iso3?.slice(0, 2).toUpperCase(),
+        countryCode: item.fields.primary_country?.iso3 ? iso3ToIso2[item.fields.primary_country.iso3.toUpperCase()] : undefined,
         eventType: inferEventType(title),
         tags: inferTags(`${title} ${item.fields.body ?? ''}`),
         urls: item.fields.url_alias ? [`https://reliefweb.int${item.fields.url_alias}`] : [],

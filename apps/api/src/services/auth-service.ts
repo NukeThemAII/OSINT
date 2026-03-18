@@ -14,11 +14,25 @@ interface MemorySession extends AdminSessionRecord {
 
 export class AuthService {
   private readonly fallbackSessions = new Map<string, MemorySession>();
+  private lastCleanup = Date.now();
 
   constructor(
     private readonly repository: AppRepository,
     private readonly env: ApiEnv,
   ) {}
+
+  /** Remove expired entries from the in-memory fallback session store. */
+  private cleanupExpiredSessions(): void {
+    const now = Date.now();
+    // Only run cleanup at most once per minute to keep it cheap
+    if (now - this.lastCleanup < 60_000) return;
+    this.lastCleanup = now;
+    for (const [key, session] of this.fallbackSessions) {
+      if (new Date(session.expiresAt).getTime() <= now) {
+        this.fallbackSessions.delete(key);
+      }
+    }
+  }
 
   async login(input: {
     email: string;
@@ -26,6 +40,7 @@ export class AuthService {
     userAgent?: string;
     ipHash?: string;
   }): Promise<{ token: string; session: AuthSession } | null> {
+    this.cleanupExpiredSessions();
     let passwordHash: string | undefined;
     let adminUserId: string | undefined;
 
@@ -77,6 +92,7 @@ export class AuthService {
   }
 
   async getSession(token?: string): Promise<AuthSession> {
+    this.cleanupExpiredSessions();
     if (!token) {
       return { authenticated: false };
     }

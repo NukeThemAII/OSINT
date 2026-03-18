@@ -48,7 +48,7 @@ export async function registerPublicRoutes(app: FastifyInstance, repository: App
   app.get('/api/events/:id', async (request, reply) => {
     const event = await repository.getEventDetail((request.params as { id: string }).id);
     if (!event) {
-      reply.code(404);
+      return reply.code(404).send({ data: null, error: 'Event not found' });
     }
     return { data: eventDetailResponseSchema.shape.data.parse(event) };
   });
@@ -56,7 +56,7 @@ export async function registerPublicRoutes(app: FastifyInstance, repository: App
   app.get('/api/clusters/:id', async (request, reply) => {
     const cluster = await repository.getClusterDetail((request.params as { id: string }).id);
     if (!cluster) {
-      reply.code(404);
+      return reply.code(404).send({ data: null, error: 'Cluster not found' });
     }
     return { data: clusterDetailResponseSchema.shape.data.parse(cluster) };
   });

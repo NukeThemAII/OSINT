@@ -2,6 +2,7 @@ import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
 import { AppRepository } from '@investor-intel/db';
 import { adminAnalyticsResponseSchema, authSessionResponseSchema, loginRequestSchema } from '@investor-intel/core';
+import { stableHash } from '@investor-intel/core/hashing';
 
 import type { ApiEnv } from '../env';
 import { AuthService } from '../services/auth-service';
@@ -23,7 +24,7 @@ export async function registerAdminRoutes(
     const token = await getSignedCookieValue(request, env);
     const session = await authService.getSession(token);
     if (!session.authenticated) {
-      reply.code(401).send({ error: 'Unauthorized' });
+      return reply.code(401).send({ error: 'Unauthorized' }) as unknown as void;
     }
   }
 
@@ -36,7 +37,7 @@ export async function registerAdminRoutes(
 
   app.post('/api/admin/auth/login', { config: { rateLimit: { max: 10, timeWindow: '1 minute' } } }, async (request, reply) => {
     const input = loginRequestSchema.parse(request.body);
-    const ipHash = request.ip ? request.ip : undefined;
+    const ipHash = request.ip ? stableHash(request.ip) : undefined;
     const result = await authService.login({
       email: input.email,
       password: input.password,

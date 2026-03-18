@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 
-import { and, desc, eq, gte, inArray } from 'drizzle-orm';
+import { and, desc, eq, gte, inArray, sql } from 'drizzle-orm';
 
 import {
   buildFallbackBrief,
@@ -519,6 +519,9 @@ export class AppRepository {
   }): Promise<void> {
     if (!this.database) return;
     const finishedAt = new Date();
+    // Fetch the run's startedAt to compute real duration
+    const run = await this.database.db.query.ingestRuns.findFirst({ where: eq(ingestRuns.id, options.id) });
+    const durationMs = run ? finishedAt.getTime() - run.startedAt.getTime() : 0;
     await this.database.db
       .update(ingestRuns)
       .set({
@@ -527,7 +530,7 @@ export class AppRepository {
         recordsWritten: options.recordsWritten,
         errorsJson: options.errors ?? [],
         finishedAt,
-        durationMs: 0,
+        durationMs,
       })
       .where(eq(ingestRuns.id, options.id));
   }
@@ -598,7 +601,11 @@ export class AppRepository {
         .onConflictDoUpdate({
           target: events.fingerprint,
           set: {
-            title: eventRecords[0]?.title,
+            title: sql`excluded.title`,
+            summary: sql`excluded.summary`,
+            severityScore: sql`excluded.severity_score`,
+            marketRelevanceScore: sql`excluded.market_relevance_score`,
+            sourceCount: sql`excluded.source_count`,
             updatedAt: new Date(),
           },
         });
